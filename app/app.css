@@ -227,6 +227,18 @@
                 }
             }
 
+            &.auth-required {
+                @apply border-red-400 bg-red-50;
+
+                .drop-icon {
+                    @apply bg-red-100 text-red-500;
+                }
+
+                .sign-in-required {
+                    @apply pointer-events-auto mt-3 px-5 py-2 bg-primary text-white text-sm font-semibold rounded-lg hover:opacity-90 transition-opacity;
+                }
+            }
+
             &:not(.is-dragging):hover .drop-icon {
                 @apply bg-zinc-300 text-black;
             }
