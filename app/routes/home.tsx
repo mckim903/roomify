@@ -2,6 +2,8 @@ import type { Route } from "./+types/home";
 import Navbar from "../components/Navbar";
 import { ArrowRight, ArrowUpRight, Clock, Layers } from "lucide-react";
 import Button from "~/components/ui/Button";
+import Upload from "~/components/Upload";
+import { useNavigate } from "react-router";
 
 
 export function meta({}: Route.MetaArgs) {
@@ -12,6 +14,16 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
+  const navigate = useNavigate()
+
+  const handleUploadComplete = async (base64Image: string) => {
+    const newId = Date.now().toString()
+
+    navigate(`/visualizer/${newId}`)
+    return true;
+  }
+
+  
   return (
     <div className="home">
       <Navbar />
@@ -21,9 +33,9 @@ export default function Home() {
           <div className="dot">
             <div className="pulse"></div>
           </div>
-          <p className="">Introducing Roomify 2.0</p>
+          <p>Introducing Roomify 2.0</p>
         </div>
-        <h1 className="">Build beautiful spaces at the speed of thought with Roomify</h1>
+        <h1>Build beautiful spaces at the speed of thought with Roomify</h1>
         <p className="subtitle">
           Roomify is an AI-first design environment that helps you visoalize, render, and ship architectural projects faster than ever.
         </p>
@@ -46,11 +58,11 @@ export default function Home() {
                 <Layers className="icon" />
               </div>
 
-              <h3 className="">Upload your floor plan</h3>
-              <p className="">Supports JPG, PNG, formats up to 10MB</p>
+              <h3>Upload your floor plan</h3>
+              <p>Supports JPG, PNG, formats up to 10MB</p>
             </div>
 
-            <p className="">Upload images</p>
+            <Upload onComplete={handleUploadComplete} />
           </div>
         </div>
       </section>
@@ -59,8 +71,8 @@ export default function Home() {
         <div className="section-inner">
           <div className="section-head">
             <div className="copy">
-              <h2 className="">Projects</h2>
-              <p className="">Your latest work and shared community projects, all in one place.</p>
+              <h2>Projects</h2>
+              <p>Your latest work and shared community projects, all in one place.</p>
             </div>
           </div>
 
@@ -78,7 +90,7 @@ export default function Home() {
                   <h3>Project Manhattan</h3>
                   <div className="meta">
                     <Clock size={12} />
-                    <span>{new Date('01.01.2027').toLocaleDateString()}</span>
+                    <span>{new Date('01.01.2027').toLocaleDateString('en-US')}</span>
                     <span>By JS Mastery</span>
                   </div>
                 </div>
