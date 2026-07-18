@@ -1,7 +1,7 @@
 import { CheckCircle2, ImageIcon, UploadIcon } from 'lucide-react';
 import React from 'react'
 import { useOutletContext } from "react-router";
-import { REDIRECT_DELAY_MS, PROGRESS_INCREMENT, PROGRESS_INTERVAL_MS } from '../lib/constants';
+import { REDIRECT_DELAY_MS, PROGRESS_INCREMENT, PROGRESS_INTERVAL_MS, MAX_FILE_SIZE } from '../lib/constants';
 
 interface UploadProps {
   onComplete: (data: string) => void;
@@ -20,6 +20,11 @@ const Upload = ({ onComplete }: UploadProps) => {
     setFile(file);
 
     const reader = new FileReader();
+    reader.onerror = () => {
+      setFile(null);
+      setProgress(0);
+    };
+
     reader.onload = (e) => {
       const base64 = e.target?.result as string;
       
@@ -53,8 +58,20 @@ const Upload = ({ onComplete }: UploadProps) => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(false);
+
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      processFile(e.dataTransfer.files[0]);
+      const droppedFile = e.dataTransfer.files[0];
+      if (droppedFile.size > MAX_FILE_SIZE) {
+        setFile(null);
+        return;
+      }
+      const allowedTypes = ["image/jpeg", "image/png"];
+      if (droppedFile && allowedTypes.includes(droppedFile.type)) {
+        processFile(droppedFile);
+      } else {
+        setFile(null);
+        return;
+      }
     }
   };
 
