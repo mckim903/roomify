@@ -31,23 +31,23 @@ export default function Home() {
       timestamp: Date.now(),
     }
 
-    // const saved = await createProject({item: newItem, visibility: "private"});
+    const saved = await createProject({item: newItem, visibility: "private"});
 
-    // if (!saved) {
-    //   console.error("Failed to create project")
-    //   return false;
-    // }
+    if (!saved) {
+      console.error("Failed to create project")
+      return false;
+    }
 
-    // setProjects((prev) => [newItem, ...prev]);
+    setProjects((prev) => [newItem, ...prev]);
 
     navigate(`/visualizer/${newId}`, {
-      // state: {
-      //   initialImage: saved.sourceImage,
-      //   initialRender: saved.renderedImage || null,
-      //   name: saved.name,
-      //   ownerId: saved.ownerId,
-      //   sharedBy: saved.sharedBy,
-      // }
+      state: {
+        initialImage: saved.sourceImage,
+        initialRender: saved.renderedImage || null,
+        name: saved.name,
+        ownerId: saved.ownerId,
+        sharedBy: saved.sharedBy,
+      }
     });
 
     return true;
@@ -121,7 +121,7 @@ export default function Home() {
                     <h3>{name}</h3>
                     <div className="meta">
                       <Clock size={12} />
-                      <span>{new Date({timestamp}).toLocaleDateString()}</span>
+                      <span>{new Date(timestamp).toLocaleDateString()}</span>
                       <span>By JS Mastery</span>
                     </div>
                   </div>

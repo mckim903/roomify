@@ -1,7 +1,7 @@
 import { CheckCircle2, ImageIcon, UploadIcon } from 'lucide-react';
 import React from 'react'
 import { useOutletContext } from "react-router";
-import { REDIRECT_DELAY_MS, PROGRESS_INCREMENT, PROGRESS_INTERVAL_MS, MAX_FILE_SIZE } from '../lib/constants';
+import { REDIRECT_DELAY_MS, PROGRESS_INCREMENT, PROGRESS_INTERVAL_MS } from '../lib/constants';
 
 interface UploadProps {
   onComplete: (data: string) => void;
@@ -61,10 +61,12 @@ const Upload = ({ onComplete }: UploadProps) => {
 
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       const droppedFile = e.dataTransfer.files[0];
-      if (droppedFile.size > MAX_FILE_SIZE) {
+      if (droppedFile.size > 1024 * 1024 * 50) { // 50MB  
+        console.warn("File size exceeds 5MB, skipping upload.");
         setFile(null);
         return;
       }
+
       const allowedTypes = ["image/jpeg", "image/png"];
       if (droppedFile && allowedTypes.includes(droppedFile.type)) {
         processFile(droppedFile);

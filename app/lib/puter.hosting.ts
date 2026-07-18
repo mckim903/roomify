@@ -1,5 +1,5 @@
 import puter from "@heyputer/puter.js";
-import { createHostingSlug, fetchBlobFromUrl, getHostedUrl, getImageExtension, HOSTING_CONFIG_KEY, imageUrlToPngBlob } from "./utils";
+import { createHostingSlug, fetchBlobFromUrl, getHostedUrl, getImageExtension, HOSTING_CONFIG_KEY, imageUrlToPngBlob, isHostedUrl } from "./utils";
 
 
 export const getOrCreateHostingConfig = async (): Promise<HostingConfig | null> => {
@@ -11,8 +11,7 @@ export const getOrCreateHostingConfig = async (): Promise<HostingConfig | null> 
 
   try {
     const created = await puter.hosting.create(subdomain, ".");
-    const record = {subdomain: created.subdomain}
-    return record;
+    return {subdomain: created.subdomain};
   } catch (e) {
     console.warn(`Could not find subdomain: ${e}`);
     return null;
