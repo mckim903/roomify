@@ -14,7 +14,7 @@ import {
   getCurrentUser,
   signIn as puterSignIn, 
   signOut as puterSignOut,
-} from "./components/lib/puter.action";
+} from "./lib/puter.action";
 
 
 export const links: Route.LinksFunction = () => [
